@@ -1,0 +1,11 @@
+{
+  "type": "postgres",
+  "host": "db",
+  "port": 5432,
+  "database": "packaging_supply_system",
+  "username": "postgres",
+  "password": "postgres",
+  "synchronize": true,
+  "logging": true,
+  "entities": ["./src/**/*.entity.ts", "./src/**/*.entity.js"]
+}
