@@ -1,0 +1,66 @@
+@startuml "packaging_supply_system"
+
+enum UserRole {
+  ADMIN
+  CUSTOMER
+  SUPPLIER
+}
+
+enum RequestStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+class User {
+  +id: String
+  +email: String
+  +password: String
+  +role: UserRole
+  +createdAt: DateTime
+  +companyName: String
+}
+
+class OrderRequest {
+  +id: String
+  +customerId: String
+  +status: RequestStatus
+  +createdAt: DateTime
+  +updatedAt: DateTime
+  +description: String
+  +orderItems: OrderItem[]
+}
+
+class OrderItem {
+  +id: String
+  +orderRequestId: String
+  +productTypeId: String
+  +requestedQuantity: Int
+  +description: String
+}
+
+class ProductType {
+  +id: String
+  +name: String
+  +description: String
+  +createdAt: DateTime
+  +isActive: Boolean
+}
+
+class SupplierInterest {
+  +id: String
+  +supplierId: String
+  +orderRequestId: String
+  +isInterested: Boolean
+  +createdAt: DateTime
+  +updatedAt: DateTime
+  +offerPrice: Double
+}
+
+User "1" -- "0..*" OrderRequest : creates
+User "1" -- "0..*" SupplierInterest : creates
+OrderRequest "1" -- "0..*" OrderItem : contains
+OrderItem "*" --> "1" ProductType : references
+SupplierInterest "*" --> "1" OrderRequest : targets
+
+@enduml

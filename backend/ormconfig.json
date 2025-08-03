@@ -7,5 +7,5 @@
   "password": "postgres",
   "synchronize": true,
   "logging": true,
-  "entities": ["./src/**/*.entity.ts", "./src/**/*.entity.js"]
+  "entities": ["dist/**/*.entity{.ts,.js}"]
 }
