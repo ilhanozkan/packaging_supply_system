@@ -75,9 +75,11 @@ const initialState: OrderRequestState = {
 // Async thunks
 export const fetchOrderRequests = createAsyncThunk(
   "orderRequests/fetchOrderRequests",
-  async (productTypeId: string | undefined, { rejectWithValue }) => {
+  async (productTypeIds: string[] | undefined, { rejectWithValue }) => {
     try {
-      const params = productTypeId ? { productTypeId } : {};
+      const params = productTypeIds && productTypeIds.length > 0 
+        ? { productTypeIds: productTypeIds.join(',') } 
+        : {};
       const response = await api.get<OrderRequest[]>("/order-requests", {
         params,
       });

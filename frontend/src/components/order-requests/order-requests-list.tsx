@@ -19,10 +19,12 @@ import {
   OrderRequest,
   RequestStatus,
 } from "@/lib/features/orderRequests/orderRequestSlice";
+import { UserRole } from "@/lib/features/auth/authSlice";
 
 interface OrderRequestsListProps {
   orderRequests: OrderRequest[];
   isLoading: boolean;
+  role?: string;
 }
 
 const ITEMS_PER_PAGE = 6;
@@ -30,6 +32,7 @@ const ITEMS_PER_PAGE = 6;
 export function OrderRequestsList({
   orderRequests,
   isLoading,
+  role,
 }: OrderRequestsListProps) {
   const router = useRouter();
 
@@ -112,10 +115,12 @@ export function OrderRequestsList({
         <h3 className="text-lg font-medium text-gray-900 mb-2">
           Henüz sipariş talebi yok
         </h3>
-        <p className="text-gray-500">
-          İlk sipariş talebinizi oluşturmak için yukarıdaki "Oluştur" butonuna
-          tıklayın.
-        </p>
+        {role === UserRole.CUSTOMER && (
+          <p className="text-gray-500">
+            İlk sipariş talebinizi oluşturmak için yukarıdaki "Oluştur" butonuna
+            tıklayın.
+          </p>
+        )}
       </div>
     );
 
