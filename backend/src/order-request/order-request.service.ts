@@ -64,7 +64,6 @@ export class OrderRequestService {
           orderRequest: savedOrderRequest,
           productType,
           requestedQuantity: item.requestedQuantity,
-          description: item.description,
         });
       }),
     );
@@ -150,9 +149,8 @@ export class OrderRequestService {
 
           return this.orderItemRepository.create({
             orderRequest,
-            productType, // Use the ProductType entity
+            productType,
             requestedQuantity: item.requestedQuantity,
-            description: item.description,
           });
         }),
       );
@@ -212,7 +210,6 @@ export class OrderRequestService {
         orderRequest.orderItems?.map(item => ({
           id: item.id,
           requestedQuantity: item.requestedQuantity,
-          description: item.description,
           productType: item.productType
             ? {
                 id: item.productType.id,

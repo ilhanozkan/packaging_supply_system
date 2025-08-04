@@ -7,8 +7,4 @@ export class CreateOrderItemDto {
 
   @IsNotEmpty()
   requestedQuantity: number;
-
-  @IsOptional()
-  @IsString()
-  description?: string;
 }
