@@ -73,15 +73,16 @@ export class OrderRequestService {
     return this.findOne(savedOrderRequest.id);
   }
 
-  async findAll(productTypeId?: string): Promise<OrderRequestResponseDto[]> {
+  async findAll(productTypeIds?: string[]): Promise<OrderRequestResponseDto[]> {
     const query = this.orderRequestRepository
       .createQueryBuilder('orderRequest')
       .leftJoinAndSelect('orderRequest.customer', 'customer')
       .leftJoinAndSelect('orderRequest.orderItems', 'orderItems')
       .leftJoinAndSelect('orderItems.productType', 'productType');
 
-    if (productTypeId)
-      query.where('productType.id = :productTypeId', { productTypeId });
+    if (productTypeIds && productTypeIds.length > 0) {
+      query.where('productType.id IN (:...productTypeIds)', { productTypeIds });
+    }
 
     const orderRequests = await query.getMany();
 

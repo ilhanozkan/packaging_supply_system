@@ -40,9 +40,16 @@ export class OrderRequestController {
   @Get()
   @Roles(UserRole.ADMIN, UserRole.SUPPLIER)
   async findAll(
-    @Query('productTypeId') productTypeId: string,
+    @Query('productTypeIds') productTypeIds?: string,
   ): Promise<OrderRequestResponseDto[]> {
-    return this.orderRequestService.findAll(productTypeId);
+    const productTypeIdArray = productTypeIds
+      ? productTypeIds
+          .split(',')
+          .map(id => id.trim())
+          .filter(id => id)
+      : undefined;
+
+    return this.orderRequestService.findAll(productTypeIdArray);
   }
 
   @Get('my-orders')

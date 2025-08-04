@@ -500,7 +500,7 @@
           "response": []
         },
         {
-          "name": "List Order Requests by Product Type (Admin/Supplier)",
+          "name": "List Order Requests by Product Types (Admin/Supplier)",
           "request": {
             "method": "GET",
             "header": [
@@ -510,13 +510,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/order-requests?productTypeId={{productTypeId}}",
+              "raw": "{{baseUrl}}/order-requests?productTypeIds={{productTypeId}},another-id-here",
               "host": ["{{baseUrl}}"],
               "path": ["order-requests"],
               "query": [
                 {
-                  "key": "productTypeId",
-                  "value": "{{productTypeId}}"
+                  "key": "productTypeIds",
+                  "value": "{{productTypeId}},another-id-here",
+                  "description": "Comma-separated list of product type IDs to filter by. Orders containing at least one of these product types will be returned."
                 }
               ]
             }
