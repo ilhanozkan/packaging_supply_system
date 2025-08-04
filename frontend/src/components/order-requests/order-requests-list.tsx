@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { OrderItemsModal } from "@/components/order-requests/order-items-modal";
+import { SupplierInterestDialog } from "@/components/order-requests/supplier-interest-dialog";
 import {
   OrderRequest,
   RequestStatus,
@@ -39,6 +40,15 @@ export function OrderRequestsList({
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrderForModal, setSelectedOrderForModal] =
     useState<OrderRequest | null>(null);
+  const [supplierInterestDialog, setSupplierInterestDialog] = useState<{
+    isOpen: boolean;
+    orderRequest: OrderRequest | null;
+    isInterested: boolean;
+  }>({
+    isOpen: false,
+    orderRequest: null,
+    isInterested: true,
+  });
 
   if (isLoading)
     return (
@@ -106,6 +116,30 @@ export function OrderRequestsList({
     } catch {
       return "Geçersiz tarih";
     }
+  };
+
+  const handleOfferClick = (orderRequest: OrderRequest) => {
+    setSupplierInterestDialog({
+      isOpen: true,
+      orderRequest,
+      isInterested: true,
+    });
+  };
+
+  const handleNotInterestedClick = (orderRequest: OrderRequest) => {
+    setSupplierInterestDialog({
+      isOpen: true,
+      orderRequest,
+      isInterested: false,
+    });
+  };
+
+  const closeSupplierInterestDialog = () => {
+    setSupplierInterestDialog({
+      isOpen: false,
+      orderRequest: null,
+      isInterested: true,
+    });
   };
 
   if (orderRequests.length === 0)
@@ -181,30 +215,51 @@ export function OrderRequestsList({
               </div>
 
               <div className="pt-4 border-t border-slate-600">
-                <Button
-                  size="sm"
-                  className="text-xs border-slate-500 mb-2 bg-button-primary hover:bg-button-primary-hover font-semibold"
-                  onClick={() =>
-                    router.push(`/order-requests/${order.id}/offers`)
-                  }
-                >
-                  Gelen Teklifleri Gör
-                </Button>
+                {role === UserRole.CUSTOMER ? (
+                  <>
+                    <Button
+                      size="sm"
+                      className="text-xs border-slate-500 mb-2 bg-button-primary hover:bg-button-primary-hover font-semibold"
+                      onClick={() =>
+                        router.push(`/order-requests/${order.id}/offers`)
+                      }
+                    >
+                      Gelen Teklifleri Gör
+                    </Button>
 
-                <div className="flex items-center gap-2">
-                  <Button
-                    size="sm"
-                    className="text-xs border-slate-500 bg-button-primary hover:bg-button-primary-hover font-semibold"
-                  >
-                    Düzenle
-                  </Button>
-                  <Button
-                    size="sm"
-                    className="text-xs bg-red-600 hover:bg-red-700 text-white font-semibold"
-                  >
-                    Sil
-                  </Button>
-                </div>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        size="sm"
+                        className="text-xs border-slate-500 bg-button-primary hover:bg-button-primary-hover font-semibold"
+                      >
+                        Düzenle
+                      </Button>
+                      <Button
+                        size="sm"
+                        className="text-xs bg-red-600 hover:bg-red-700 text-white font-semibold"
+                      >
+                        Sil
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Button
+                      size="sm"
+                      className="text-xs border-slate-500 bg-button-primary hover:bg-button-primary-hover font-semibold"
+                      onClick={() => handleOfferClick(order)}
+                    >
+                      Teklif Ver
+                    </Button>
+                    <Button
+                      size="sm"
+                      className="text-xs bg-red-600 hover:bg-red-700 text-white font-semibold"
+                      onClick={() => handleNotInterestedClick(order)}
+                    >
+                      İlgilenmiyorum
+                    </Button>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -221,6 +276,14 @@ export function OrderRequestsList({
         isOpen={!!selectedOrderForModal}
         onClose={() => setSelectedOrderForModal(null)}
         orderRequest={selectedOrderForModal}
+      />
+
+      <SupplierInterestDialog
+        isOpen={supplierInterestDialog.isOpen}
+        onClose={closeSupplierInterestDialog}
+        orderRequestId={supplierInterestDialog.orderRequest?.id || ""}
+        orderTitle={supplierInterestDialog.orderRequest?.title || ""}
+        isInterested={supplierInterestDialog.isInterested}
       />
     </div>
   );
