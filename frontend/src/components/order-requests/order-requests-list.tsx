@@ -146,7 +146,7 @@ export function OrderRequestsList({
               </div>
             </CardHeader>
 
-            <CardContent className="pt-0 space-y-4">
+            <CardContent className="pt-0 space-y-4 mt-auto">
               <div className="space-y-3">
                 <div className="flex items-center text-sm text-gray-300">
                   <User className="w-4 h-4 mr-2 shrink-0" />

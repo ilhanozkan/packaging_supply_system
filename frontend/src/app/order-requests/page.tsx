@@ -6,7 +6,10 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { fetchMyOrderRequests } from "@/lib/features/orderRequests/orderRequestSlice";
+import {
+  fetchMyOrderRequests,
+  fetchOrderRequests,
+} from "@/lib/features/orderRequests/orderRequestSlice";
 import { OrderRequestsList } from "@/components/order-requests/order-requests-list";
 import { ProtectedRoute } from "@/components/auth/protected-route";
 import { MainLayout } from "@/components/layout/main-layout";
@@ -18,13 +21,18 @@ export default function OrderRequestsPage() {
   const { items: orderRequests, isLoading } = useAppSelector(
     (state) => state.orderRequests
   );
+  const { user, isProfileFetched } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    dispatch(fetchMyOrderRequests());
-  }, []);
+    if (isProfileFetched) {
+      if (user?.role === UserRole.SUPPLIER || user?.role === UserRole.ADMIN)
+        dispatch(fetchOrderRequests(undefined));
+      else dispatch(fetchMyOrderRequests());
+    }
+  }, [isProfileFetched]);
 
   return (
-    <ProtectedRoute allowedRoles={[UserRole.CUSTOMER]}>
+    <ProtectedRoute>
       <MainLayout>
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-6">
