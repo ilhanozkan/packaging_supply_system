@@ -1,14 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import {
-  LogOut,
-  User,
-  Package,
-  ShoppingCart,
-  Users,
-  Settings,
-} from "lucide-react";
+import { LogOut, Package, ShoppingCart, Users, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -54,7 +47,7 @@ export function Header() {
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center space-x-6">
           <h1 className="text-xl font-bold text-gray-900">
-            Ambalaj Tedarik Yönetim Sistemi
+            Ambalaj Tedarik Sistemi
           </h1>
 
           <nav className="hidden md:flex items-center space-x-4">
@@ -75,6 +68,14 @@ export function Header() {
                 >
                   <ShoppingCart className="w-4 h-4 mr-2" />
                   Sipariş Taleplerim
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => router.push("/order-requests/new")}
+                  className="text-sm"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Yeni Talep
                 </Button>
                 <Button
                   variant="ghost"

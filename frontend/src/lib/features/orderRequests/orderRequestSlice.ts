@@ -44,7 +44,6 @@ export interface CreateOrderRequestData {
   orderItems: {
     productTypeId: string;
     requestedQuantity: number;
-    description: string;
   }[];
   expirationDate: string;
 }
