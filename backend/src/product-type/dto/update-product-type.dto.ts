@@ -12,4 +12,8 @@ export class UpdateProductTypeDto {
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;
+
+  @IsOptional()
+  @IsString()
+  imageUrl?: string;
 }

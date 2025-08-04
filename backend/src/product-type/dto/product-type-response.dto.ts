@@ -4,4 +4,5 @@ export class ProductTypeResponseDto {
   description: string;
   createdAt: Date;
   isActive: boolean;
+  imageUrl?: string;
 }
