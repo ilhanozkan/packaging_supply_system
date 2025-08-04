@@ -7,6 +7,7 @@ import { ProductTypeResponseDto } from './dto/product-type-response.dto';
 import { ProductTypeDto } from './dto/product-type.dto';
 import { CreateProductTypeDto } from './dto/create-product-type.dto';
 import { UpdateProductTypeDto } from './dto/update-product-type.dto';
+import { mockData } from './mock-data/mock-data';
 
 import { UserRole } from '../user/enum/user-role.enum';
 import { Roles } from '../auth/decorator/roles.decorator';
@@ -94,5 +95,22 @@ export class ProductTypeService {
     }
 
     await this.productTypeRepository.remove(productType);
+  }
+
+  async initializeProductTypes(): Promise<void> {
+    const count = await this.productTypeRepository.count();
+
+    if (count === 0) {
+      const productTypes = mockData.map(data =>
+        this.productTypeRepository.create({
+          name: data.name,
+          description: data.description,
+          imageUrl: data.imageUrl,
+          isActive: true,
+        }),
+      );
+
+      await this.productTypeRepository.save(productTypes);
+    }
   }
 }
