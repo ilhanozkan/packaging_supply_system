@@ -154,7 +154,7 @@ export function CreateOrderRequestForm() {
     <div className="space-y-6">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <Card className="bg-slate-700 border-slate-600">
+          <Card className="bg-primary-background border-slate-600">
             <CardHeader>
               <CardTitle className="text-white text-xl">
                 Talep Oluştur
@@ -265,7 +265,7 @@ export function CreateOrderRequestForm() {
                       {selectedProducts.map((item, index) => (
                         <div
                           key={item.productType.id}
-                          className="flex items-center gap-4 p-4 bg-slate-600 rounded-lg"
+                          className="flex items-center gap-4 p-4 bg-slate-500 rounded-lg"
                         >
                           <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                             {item.productType.imageUrl ? (

@@ -6,6 +6,7 @@ export class OrderRequestResponseDto {
   createdAt: Date;
   updatedAt: Date;
   description?: string;
+  title: string;
   customer?: {
     id: string;
     email: string;

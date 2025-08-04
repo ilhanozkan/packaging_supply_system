@@ -2,10 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "@/lib/api";
 
 export enum RequestStatus {
-  PENDING = "pending",
-  IN_PROGRESS = "in_progress",
+  ACTIVE = "active",
+  INACTIVE = "inactive",
   COMPLETED = "completed",
-  CANCELLED = "cancelled",
 }
 
 export interface OrderItem {

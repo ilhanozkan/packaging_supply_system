@@ -195,6 +195,7 @@ export class OrderRequestService {
       status: orderRequest.status,
       createdAt: orderRequest.createdAt,
       updatedAt: orderRequest.updatedAt,
+      title: orderRequest.title,
       description: orderRequest.description,
       expirationDate: orderRequest.expirationDate,
       customer: orderRequest.customer

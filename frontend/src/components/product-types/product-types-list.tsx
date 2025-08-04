@@ -57,7 +57,6 @@ export function ProductTypesList() {
         </div>
       </div>
 
-      {/* Search */}
       <div className="flex items-center space-x-2">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -72,7 +71,6 @@ export function ProductTypesList() {
         <Button onClick={handleSearch}>Ara</Button>
       </div>
 
-      {/* Product Types Grid */}
       {productTypes.length === 0 ? (
         <div className="text-center py-12">
           <Package className="mx-auto h-12 w-12 text-gray-400" />
@@ -86,28 +84,30 @@ export function ProductTypesList() {
           </p>
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {productTypes.map((productType) => (
             <Card
               key={productType.id}
-              className="hover:shadow-lg transition-shadow cursor-pointer"
+              className="cursor-pointer bg-primary-background shadow-lg"
               onClick={() =>
                 router.push(`/order-requests/new?productType=${productType.id}`)
               }
             >
               <CardHeader>
-                <CardTitle className="text-lg">{productType.name}</CardTitle>
+                <CardTitle className="text-lg text-white">
+                  {productType.name}
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="mb-4">
+                <CardDescription className="mb-4 text-white">
                   {productType.description}
                 </CardDescription>
                 {productType.imageUrl && (
-                  <div className="w-full h-32 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+                  <div className="w-full rounded-lg mb-4 flex items-center justify-center">
                     <img
                       src={productType.imageUrl}
                       alt={productType.name}
-                      className="max-w-full max-h-full object-contain rounded-lg"
+                      className="w-full max-h-full object-contain rounded-lg"
                       onError={(e) => {
                         e.currentTarget.style.display = "none";
                         e.currentTarget.parentElement!.innerHTML =
@@ -116,19 +116,18 @@ export function ProductTypesList() {
                     />
                   </div>
                 )}
-                <div className="flex items-center justify-end">
-                  <Button
-                    size="sm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      router.push(
-                        `/order-requests/new?productType=${productType.id}`
-                      );
-                    }}
-                  >
-                    Talep Oluştur
-                  </Button>
-                </div>
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    router.push(
+                      `/order-requests/new?productType=${productType.id}`
+                    );
+                  }}
+                  className="w-full text-white bg-button-primary hover:bg-button-primary-hover font-semibold"
+                >
+                  Talep Oluştur
+                </Button>
               </CardContent>
             </Card>
           ))}
