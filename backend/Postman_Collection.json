@@ -1,0 +1,929 @@
+{
+  "info": {
+    "name": "Packaging Request and Supplier System API",
+    "description": "Comprehensive API collection for the packaging request and supplier management system",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "customerToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "supplierToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "productTypeId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "orderRequestId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "supplierInterestId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"companyName\": \"ABC Company\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"Password123!\",\n  \"passwordConfirmation\": \"Password123!\",\n  \"isSupplier\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register Supplier",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Smith\",\n  \"companyName\": \"Supply Corp\",\n  \"email\": \"jane.smith@example.com\",\n  \"password\": \"Password123!\",\n  \"passwordConfirmation\": \"Password123!\",\n  \"isSupplier\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Admin\",\n  \"lastName\": \"User\",\n  \"companyName\": \"Admin Corp\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"Password123!\",\n  \"passwordConfirmation\": \"Password123!\",\n  \"isSupplier\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Customer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const responseJson = pm.response.json();",
+                  "  if (responseJson.token) {",
+                  "    pm.collectionVariables.set('customerToken', responseJson.token);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Supplier",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const responseJson = pm.response.json();",
+                  "  if (responseJson.token) {",
+                  "    pm.collectionVariables.set('supplierToken', responseJson.token);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"jane.smith@example.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const responseJson = pm.response.json();",
+                  "  if (responseJson.token) {",
+                  "    pm.collectionVariables.set('adminToken', responseJson.token);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Product Types",
+      "item": [
+        {
+          "name": "List Active Product Types",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/product-types",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-types"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Active Product Types with Search",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/product-types?search=box",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-types"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "box"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List All Product Types (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/product-types/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-types", "all"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product Type by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const responseJson = pm.response.json();",
+                  "  if (responseJson.id) {",
+                  "    pm.collectionVariables.set('productTypeId', responseJson.id);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/product-types/{{productTypeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-types", "{{productTypeId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Product Type (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const responseJson = pm.response.json();",
+                  "  if (responseJson.id) {",
+                  "    pm.collectionVariables.set('productTypeId', responseJson.id);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Custom Box\",\n  \"description\": \"Custom cardboard box for packaging\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://example.com/box.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/product-types",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-types"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product Type (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Custom Box\",\n  \"description\": \"Updated description for custom cardboard box\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://example.com/updated-box.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/product-types/{{productTypeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-types", "{{productTypeId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product Type (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/product-types/{{productTypeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-types", "{{productTypeId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Order Requests",
+      "item": [
+        {
+          "name": "Create Order Request (Customer)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const responseJson = pm.response.json();",
+                  "  if (responseJson.id) {",
+                  "    pm.collectionVariables.set('orderRequestId', responseJson.id);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Packaging Request for Electronics\",\n  \"description\": \"Need custom packaging for electronic devices\",\n  \"orderItems\": [\n    {\n      \"productTypeId\": \"{{productTypeId}}\",\n      \"requestedQuantity\": 100,\n      \"description\": \"Small boxes for mobile phones\"\n    }\n  ],\n  \"expirationDate\": \"2025-12-31\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/order-requests",
+              "host": ["{{baseUrl}}"],
+              "path": ["order-requests"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List All Order Requests (Admin/Supplier)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/order-requests",
+              "host": ["{{baseUrl}}"],
+              "path": ["order-requests"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Order Requests by Product Type (Admin/Supplier)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supplierToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/order-requests?productTypeId={{productTypeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["order-requests"],
+              "query": [
+                {
+                  "key": "productTypeId",
+                  "value": "{{productTypeId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Orders (Customer)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/order-requests/my-orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["order-requests", "my-orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order Request by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/order-requests/{{orderRequestId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["order-requests", "{{orderRequestId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Request (Customer/Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Packaging Request for Electronics\",\n  \"description\": \"Updated description: Need custom packaging for electronic devices and accessories\",\n  \"orderItems\": [\n    {\n      \"productTypeId\": \"{{productTypeId}}\",\n      \"requestedQuantity\": 150,\n      \"description\": \"Medium boxes for electronic accessories\"\n    }\n  ],\n  \"expirationDate\": \"2025-12-31\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/order-requests/{{orderRequestId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["order-requests", "{{orderRequestId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Request Status (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/order-requests/{{orderRequestId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["order-requests", "{{orderRequestId}}", "status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Order Request (Admin/Customer)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/order-requests/{{orderRequestId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["order-requests", "{{orderRequestId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Supplier Interests",
+      "item": [
+        {
+          "name": "Create Supplier Interest (Supplier)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const responseJson = pm.response.json();",
+                  "  if (responseJson.id) {",
+                  "    pm.collectionVariables.set('supplierInterestId', responseJson.id);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supplierToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderRequestId\": \"{{orderRequestId}}\",\n  \"isInterested\": true,\n  \"offerPrice\": 250.50\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/supplier-interests",
+              "host": ["{{baseUrl}}"],
+              "path": ["supplier-interests"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List All Supplier Interests (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/supplier-interests",
+              "host": ["{{baseUrl}}"],
+              "path": ["supplier-interests"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Interests (Supplier)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supplierToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/supplier-interests/my-interests",
+              "host": ["{{baseUrl}}"],
+              "path": ["supplier-interests", "my-interests"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Interests by Order Request (Admin/Customer)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/supplier-interests/order-request/{{orderRequestId}}",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "supplier-interests",
+                "order-request",
+                "{{orderRequestId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Supplier Interest by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supplierToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/supplier-interests/{{supplierInterestId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["supplier-interests", "{{supplierInterestId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Supplier Interest (Supplier)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supplierToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isInterested\": true,\n  \"offerPrice\": 300.75\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/supplier-interests/{{supplierInterestId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["supplier-interests", "{{supplierInterestId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Supplier Interest (Admin/Supplier)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{supplierToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/supplier-interests/{{supplierInterestId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["supplier-interests", "{{supplierInterestId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Operations",
+      "item": [
+        {
+          "name": "List All Users (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List All Users with Pagination (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/users?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List All Product Types (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/product-types",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "product-types"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Product Types (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/product-types?search=box",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "product-types"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "box"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "General",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ]
+}
