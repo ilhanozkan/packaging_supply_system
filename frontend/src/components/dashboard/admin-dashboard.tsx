@@ -9,14 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-import {
-  Package,
-  ShoppingCart,
-  Users,
-  Heart,
-  Plus,
-  Settings,
-} from "lucide-react";
+import { Package, ShoppingCart, Users, Heart, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -47,9 +40,6 @@ export function AdminDashboard() {
 
   const pendingOrders = orderRequests.filter(
     (order) => order.status === RequestStatus.ACTIVE
-  );
-  const completedOrders = orderRequests.filter(
-    (order) => order.status === RequestStatus.COMPLETED
   );
   const activeProductTypes = productTypes.filter((product) => product.isActive);
 
@@ -212,7 +202,7 @@ export function AdminDashboard() {
           ) : (
             <div className="space-y-4">
               {orderRequests
-                .sort(
+                .toSorted(
                   (a, b) =>
                     new Date(b.createdAt).getTime() -
                     new Date(a.createdAt).getTime()
@@ -223,7 +213,7 @@ export function AdminDashboard() {
                     key={order.id}
                     className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 cursor-pointer"
                     onClick={() =>
-                      router.push(`/admin/order-requests/${order.id}`)
+                      router.push(`/admin/order-requests/${order.id}/offers`)
                     }
                   >
                     <div className="flex items-center space-x-4">
