@@ -152,6 +152,7 @@ export class SupplierInterestService {
       orderRequest: interest.orderRequest
         ? {
             id: interest.orderRequest.id,
+            title: interest.orderRequest.title,
             description: interest.orderRequest.description,
             status: interest.orderRequest.status,
           }

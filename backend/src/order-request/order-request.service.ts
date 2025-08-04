@@ -218,6 +218,7 @@ export class OrderRequestService {
                 id: item.productType.id,
                 name: item.productType.name,
                 description: item.productType.description,
+                imageUrl: item.productType.imageUrl,
               }
             : undefined,
         })) || [],

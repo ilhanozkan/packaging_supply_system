@@ -19,9 +19,10 @@ import { UpdateProductTypeDto } from './dto/update-product-type.dto';
 import { Roles } from '../auth/decorator/roles.decorator';
 import { UserRole } from '../user/enum/user-role.enum';
 import { RolesGuard } from '../auth/guard/role/role.guard';
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
 @Controller('product-types')
-@UseGuards(RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class ProductTypeController {
   constructor(private productTypeService: ProductTypeService) {}
 

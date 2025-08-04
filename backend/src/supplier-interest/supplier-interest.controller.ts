@@ -18,9 +18,10 @@ import { UpdateSupplierInterestDto } from './dto/update-supplier-interest.dto';
 import { Roles } from '../auth/decorator/roles.decorator';
 import { UserRole } from '../user/enum/user-role.enum';
 import { RolesGuard } from '../auth/guard/role/role.guard';
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
 @Controller('supplier-interests')
-@UseGuards(RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class SupplierInterestController {
   constructor(
     private readonly supplierInterestService: SupplierInterestService,
