@@ -18,14 +18,13 @@ export function ProtectedRoute({
   requireAuth = true,
 }: ProtectedRouteProps) {
   const router = useRouter();
-  const { isAuthenticated, user, isLoading } = useAppSelector(
+  const { isAuthenticated, user, isLoading, isProfileFetched } = useAppSelector(
     (state) => state.auth
   );
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (!isLoading) {
-      if (requireAuth && !isAuthenticated && !user && !token)
+      if (requireAuth && !isAuthenticated && !user && isProfileFetched)
         return router.push("/login");
 
       if (isAuthenticated && user && allowedRoles.length > 0)

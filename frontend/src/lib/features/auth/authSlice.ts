@@ -48,6 +48,7 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   isAuthenticated: boolean;
+  isProfileFetched: boolean;
 }
 
 const initialState: AuthState = {
@@ -56,6 +57,7 @@ const initialState: AuthState = {
   isLoading: false,
   error: null,
   isAuthenticated: false,
+  isProfileFetched: false,
 };
 
 // Async thunks
@@ -197,6 +199,7 @@ const authSlice = createSlice({
           action.payload;
 
         state.isLoading = false;
+        state.isProfileFetched = true;
         state.user = {
           id,
           email,
@@ -211,6 +214,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
         state.isAuthenticated = false;
+        state.isProfileFetched = true;
       });
   },
 });
