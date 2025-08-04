@@ -143,9 +143,9 @@ export class SupplierInterestService {
       supplier: interest.supplier
         ? {
             id: interest.supplier.id,
-            email: interest.supplier.email,
-            firstName: interest.supplier.firstName,
-            lastName: interest.supplier.lastName,
+            email: interest.supplier.email.slice(0, 2) + '***' + '@***',
+            firstName: interest.supplier.firstName.slice(0, 2) + '***',
+            lastName: interest.supplier.lastName.slice(0, 2) + '***',
             companyName: interest.supplier.companyName,
           }
         : undefined,
