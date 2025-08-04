@@ -34,7 +34,7 @@ export class OrderRequestService {
     });
 
     if (!customer)
-      throw new NotFoundException(`Customer with ID ${customerId} not found`);
+      throw new NotFoundException(`Müşteri ${customerId} bulunamadı`);
 
     const orderRequest = this.orderRequestRepository.create({
       customer,
@@ -57,7 +57,7 @@ export class OrderRequestService {
 
         if (!productType)
           throw new NotFoundException(
-            `ProductType with ID ${item.productTypeId} not found`,
+            `Ürün türü ${item.productTypeId} bulunamadı`,
           );
 
         return this.orderItemRepository.create({
@@ -105,7 +105,7 @@ export class OrderRequestService {
     });
 
     if (!orderRequest)
-      throw new NotFoundException(`Order request with ID ${id} not found`);
+      throw new NotFoundException(`Sipariş talebi ${id} bulunamadı`);
 
     return this.toResponseDto(orderRequest);
   }
@@ -119,7 +119,7 @@ export class OrderRequestService {
     });
 
     if (!orderRequest)
-      throw new NotFoundException(`Order request with ID ${id} not found`);
+      throw new NotFoundException(`Sipariş talebi ${id} bulunamadı`);
 
     if (updateOrderRequestDto.title !== undefined)
       orderRequest.title = updateOrderRequestDto.title;
@@ -145,7 +145,7 @@ export class OrderRequestService {
 
           if (!productType)
             throw new NotFoundException(
-              `ProductType with ID ${item.productTypeId} not found`,
+              `Ürün türü ${item.productTypeId} bulunamadı`,
             );
 
           return this.orderItemRepository.create({
@@ -172,7 +172,7 @@ export class OrderRequestService {
     });
 
     if (!orderRequest)
-      throw new NotFoundException(`Order request with ID ${id} not found`);
+      throw new NotFoundException(`Sipariş talebi ${id} bulunamadı`);
 
     orderRequest.status = status;
     await this.orderRequestRepository.save(orderRequest);
@@ -186,7 +186,7 @@ export class OrderRequestService {
     });
 
     if (!orderRequest)
-      throw new NotFoundException(`Order request with ID ${id} not found`);
+      throw new NotFoundException(`Sipariş talebi ${id} bulunamadı`);
 
     await this.orderRequestRepository.remove(orderRequest);
   }

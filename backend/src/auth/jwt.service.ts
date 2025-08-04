@@ -17,12 +17,12 @@ export class JwtService {
     try {
       const secret = process.env.JWT_SECRET;
 
-      if (!secret) throw new UnauthorizedException('JWT secret not configured');
+      if (!secret) throw new UnauthorizedException('JWT token hatası');
 
       const payload = jwt.verify(token, secret) as JwtPayload;
       return payload;
     } catch (error) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Geçersiz JWT token');
     }
   }
 
@@ -33,8 +33,7 @@ export class JwtService {
   }): string {
     const secret = process.env.JWT_SECRET;
 
-    if (!secret)
-      throw new Error('JWT_SECRET is not defined in environment variables');
+    if (!secret) throw new Error('JWT token hatası, token oluşturulamadı');
 
     return jwt.sign(payload, secret, {
       expiresIn: '7d',

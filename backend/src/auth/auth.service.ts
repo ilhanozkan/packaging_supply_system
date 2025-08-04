@@ -28,7 +28,7 @@ export class AuthService {
 
     if (!user || !(await user.comparePassword(password)))
       throw new HttpException(
-        'Invalid username or password',
+        'Geçersiz e-posta veya parola',
         HttpStatus.BAD_REQUEST,
       );
 
@@ -51,7 +51,7 @@ export class AuthService {
     });
 
     if (user)
-      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Kullanıcı zaten mevcut', HttpStatus.BAD_REQUEST);
 
     user = this.userRepository.create(data);
     user.role = isSupplier ? UserRole.SUPPLIER : UserRole.CUSTOMER;

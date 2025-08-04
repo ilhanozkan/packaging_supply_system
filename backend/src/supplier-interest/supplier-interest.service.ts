@@ -31,7 +31,7 @@ export class SupplierInterestService {
     });
 
     if (!supplier)
-      throw new NotFoundException(`Supplier with ID ${supplierId} not found`);
+      throw new NotFoundException(`Tedarikçi ${supplierId} bulunamadı`);
 
     const existingInterest = await this.supplierInterestRepository.findOne({
       where: {
@@ -42,7 +42,7 @@ export class SupplierInterestService {
 
     if (existingInterest)
       throw new ConflictException(
-        'Supplier has already expressed interest in this order request',
+        `Tedarikçi bu sipariş talebine zaten ilgi göstermiş`,
       );
 
     const supplierInterest = this.supplierInterestRepository.create({
@@ -94,7 +94,7 @@ export class SupplierInterestService {
     });
 
     if (!interest)
-      throw new NotFoundException(`Supplier interest with ID ${id} not found`);
+      throw new NotFoundException(`Tedarikçi ilgi kaydı ${id} bulunamadı`);
 
     return this.toResponseDto(interest);
   }
@@ -108,7 +108,7 @@ export class SupplierInterestService {
     });
 
     if (!interest)
-      throw new NotFoundException(`Supplier interest with ID ${id} not found`);
+      throw new NotFoundException(`Tedarikçi ilgi kaydı ${id} bulunamadı`);
 
     if (updateSupplierInterestDto.isInterested !== undefined)
       interest.isInterested = updateSupplierInterestDto.isInterested;
@@ -126,7 +126,7 @@ export class SupplierInterestService {
     });
 
     if (!interest)
-      throw new NotFoundException(`Supplier interest with ID ${id} not found`);
+      throw new NotFoundException(`Tedarikçi ilgi kaydı ${id} bulunamadı`);
 
     await this.supplierInterestRepository.remove(interest);
   }

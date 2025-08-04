@@ -20,7 +20,7 @@ export class ValidationPipe implements PipeTransform {
       this.isEmpty(value as Record<string, unknown>)
     )
       throw new HttpException(
-        'Validation failed: No body submitted',
+        'Veri tipi doğrulaması başarısız: Boş veri',
         HttpStatus.BAD_REQUEST,
       );
 
@@ -32,7 +32,7 @@ export class ValidationPipe implements PipeTransform {
 
     if (errors.length > 0)
       throw new HttpException(
-        `Validation failed: ${this.formatErrors(errors)}`,
+        `Veri tipi doğrulaması başarısız: ${this.formatErrors(errors)}`,
         HttpStatus.BAD_REQUEST,
       );
 

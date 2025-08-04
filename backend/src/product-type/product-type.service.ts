@@ -63,7 +63,7 @@ export class ProductTypeService {
     });
 
     if (!productType) {
-      throw new NotFoundException(`Product type with ID ${id} not found`);
+      throw new NotFoundException(`Ürün türü ${id} bulunamadı`);
     }
 
     return productType.toResponseObject();
@@ -78,7 +78,7 @@ export class ProductTypeService {
     });
 
     if (!productType) {
-      throw new NotFoundException(`Product type with ID ${id} not found`);
+      throw new NotFoundException(`Ürün türü ${id} bulunamadı`);
     }
 
     await this.productTypeRepository.update(id, data);
@@ -91,7 +91,7 @@ export class ProductTypeService {
     });
 
     if (!productType) {
-      throw new NotFoundException(`Product type with ID ${id} not found`);
+      throw new NotFoundException(`Ürün türü ${id} bulunamadı`);
     }
 
     await this.productTypeRepository.remove(productType);

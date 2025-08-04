@@ -35,8 +35,9 @@ export class HttpErrorFilter implements ExceptionFilter {
       method: request.method,
       message:
         status !== HttpStatus.INTERNAL_SERVER_ERROR
-          ? (isHttpException ? exception.message : 'Unknown error') || null
-          : 'Internal server error',
+          ? (isHttpException ? exception.message : 'Bilinmeyen bir hata') ||
+            null
+          : 'Sunucu hatası',
     };
 
     if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
