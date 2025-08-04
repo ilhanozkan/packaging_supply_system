@@ -11,6 +11,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api/v1');
+  app.enableCors();
 
   // ProductType mock data initialization
   const productTypeService = app.get(ProductTypeService);
