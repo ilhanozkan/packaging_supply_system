@@ -14,7 +14,7 @@ export default function HomePage() {
       if (isAuthenticated) router.push("/dashboard");
       else router.push("/login");
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, isLoading]);
 
   return (
     <div className="flex items-center justify-center min-h-screen">

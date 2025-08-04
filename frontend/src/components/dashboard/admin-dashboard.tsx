@@ -63,22 +63,12 @@ export function AdminDashboard() {
             araçları.
           </p>
         </div>
-        <div className="flex space-x-2">
-          <Button onClick={() => router.push("/admin/product-types/new")}>
-            <Plus className="w-4 h-4 mr-2" />
-            Yeni Ürün Türü
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => router.push("/admin/settings")}
-          >
-            <Settings className="w-4 h-4 mr-2" />
-            Ayarlar
-          </Button>
-        </div>
+        <Button onClick={() => router.push("/admin/product-types/new")}>
+          <Plus className="w-4 h-4 mr-2" />
+          Yeni Ürün Türü
+        </Button>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

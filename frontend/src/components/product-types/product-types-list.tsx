@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { fetchProductTypes } from "@/lib/features/productTypes/productTypeSlice";
 
@@ -31,6 +30,13 @@ export function ProductTypesList() {
 
   const handleSearch = () => {
     dispatch(fetchProductTypes(searchTerm || undefined));
+  };
+
+  const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSearch();
+    }
   };
 
   if (isLoading)
@@ -59,6 +65,7 @@ export function ProductTypesList() {
             placeholder="Ürün tipi ara..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleOnKeyDown}
             className="pl-10"
           />
         </div>
@@ -89,14 +96,7 @@ export function ProductTypesList() {
               }
             >
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">{productType.name}</CardTitle>
-                  <Badge
-                    variant={productType.isActive ? "default" : "secondary"}
-                  >
-                    {productType.isActive ? "Active" : "Inactive"}
-                  </Badge>
-                </div>
+                <CardTitle className="text-lg">{productType.name}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="mb-4">
@@ -116,11 +116,7 @@ export function ProductTypesList() {
                     />
                   </div>
                 )}
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">
-                    Created{" "}
-                    {new Date(productType.createdAt).toLocaleDateString()}
-                  </span>
+                <div className="flex items-center justify-end">
                   <Button
                     size="sm"
                     onClick={(e) => {
@@ -130,7 +126,7 @@ export function ProductTypesList() {
                       );
                     }}
                   >
-                    Request Quote
+                    Talep Oluştur
                   </Button>
                 </div>
               </CardContent>

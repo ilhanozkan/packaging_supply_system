@@ -21,16 +21,18 @@ export function ProtectedRoute({
   const { isAuthenticated, user, isLoading } = useAppSelector(
     (state) => state.auth
   );
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (!isLoading) {
-      if (requireAuth && !isAuthenticated) return router.push("/login");
+      if (requireAuth && !isAuthenticated && !user && !token)
+        return router.push("/login");
 
       if (isAuthenticated && user && allowedRoles.length > 0)
         if (!allowedRoles.includes(user.role))
           return router.push("/unauthorized");
     }
-  }, [isAuthenticated, user, isLoading, router, allowedRoles, requireAuth]);
+  }, [isAuthenticated, user, isLoading, allowedRoles, requireAuth]);
 
   if (isLoading)
     return (

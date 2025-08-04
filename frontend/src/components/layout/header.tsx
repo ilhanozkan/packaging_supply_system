@@ -24,6 +24,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { logout, UserRole } from "@/lib/features/auth/authSlice";
 
+const UserRoleTranslations: Record<UserRole, string> = {
+  customer: "Müşteri",
+  supplier: "Tedarikçi",
+  admin: "Yönetici",
+};
+
 export function Header() {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -41,9 +47,7 @@ export function Header() {
     }`.toUpperCase();
   };
 
-  if (!isAuthenticated || !user) {
-    return null;
-  }
+  if (!isAuthenticated || !user) return null;
 
   return (
     <header className="border-b bg-white">
@@ -98,7 +102,7 @@ export function Header() {
                   onClick={() => router.push("/my-interests")}
                   className="text-sm"
                 >
-                  İlgi Alanlarım
+                  İlgilendiğim Siparişler
                 </Button>
               </>
             )}
@@ -155,19 +159,10 @@ export function Header() {
                     {user.email}
                   </p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                    {UserRoleTranslations[user.role] || "Kullanıcı"}
                   </p>
                 </div>
               </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => router.push("/profile")}>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profil</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => router.push("/settings")}>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Ayarlar</span>
-              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />

@@ -14,7 +14,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // If we have a token but no user, try to get the profile
     if (storedToken && !isAuthenticated) dispatch(getProfile());
-  }, [dispatch, isAuthenticated]);
+  }, [isAuthenticated]);
 
   return <>{children}</>;
 }

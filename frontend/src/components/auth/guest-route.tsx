@@ -21,7 +21,7 @@ export function GuestRoute({ children }: GuestRouteProps) {
     setIsChecking(false);
 
     if (token || isAuthenticated) router.push("/dashboard");
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated]);
 
   if (isChecking || hasToken || isAuthenticated) return null;
 
