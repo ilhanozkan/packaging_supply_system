@@ -1,0 +1,143 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Package, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { fetchProductTypes } from "@/lib/features/productTypes/productTypeSlice";
+
+export function ProductTypesList() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { items: productTypes, isLoading } = useAppSelector(
+    (state) => state.productTypes
+  );
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    dispatch(fetchProductTypes(searchTerm || undefined));
+  }, []);
+
+  const handleSearch = () => {
+    dispatch(fetchProductTypes(searchTerm || undefined));
+  };
+
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Ürün Tipleri</h1>
+          <p className="text-muted-foreground">
+            Ambalaj sipariş talepleriniz için mevcut ürün tiplerini inceleyin
+          </p>
+        </div>
+      </div>
+
+      {/* Search */}
+      <div className="flex items-center space-x-2">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Input
+            placeholder="Ürün tipi ara..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <Button onClick={handleSearch}>Ara</Button>
+      </div>
+
+      {/* Product Types Grid */}
+      {productTypes.length === 0 ? (
+        <div className="text-center py-12">
+          <Package className="mx-auto h-12 w-12 text-gray-400" />
+          <h3 className="mt-2 text-sm font-medium text-gray-900">
+            No ürün tipi bulundu
+          </h3>
+          <p className="mt-1 text-sm text-gray-500">
+            {searchTerm
+              ? "Arama terimlerinizi ayarlamayı deneyin."
+              : "Şu anda mevcut ürün tipleri yok."}
+          </p>
+        </div>
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {productTypes.map((productType) => (
+            <Card
+              key={productType.id}
+              className="hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() =>
+                router.push(`/order-requests/new?productType=${productType.id}`)
+              }
+            >
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg">{productType.name}</CardTitle>
+                  <Badge
+                    variant={productType.isActive ? "default" : "secondary"}
+                  >
+                    {productType.isActive ? "Active" : "Inactive"}
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="mb-4">
+                  {productType.description}
+                </CardDescription>
+                {productType.imageUrl && (
+                  <div className="w-full h-32 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+                    <img
+                      src={productType.imageUrl}
+                      alt={productType.name}
+                      className="max-w-full max-h-full object-contain rounded-lg"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                        e.currentTarget.parentElement!.innerHTML =
+                          '<Package class="h-8 w-8 text-gray-400" />';
+                      }}
+                    />
+                  </div>
+                )}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-gray-500">
+                    Created{" "}
+                    {new Date(productType.createdAt).toLocaleDateString()}
+                  </span>
+                  <Button
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(
+                        `/order-requests/new?productType=${productType.id}`
+                      );
+                    }}
+                  >
+                    Request Quote
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

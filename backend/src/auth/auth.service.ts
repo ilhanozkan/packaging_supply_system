@@ -36,6 +36,9 @@ export class AuthService {
       id: user.id,
       email: user.email,
       role: user.role,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      companyName: user.companyName,
     });
 
     return user.toResponseObject(token);
@@ -61,6 +64,9 @@ export class AuthService {
       id: user.id,
       email: user.email,
       role: user.role,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      companyName: user.companyName,
     });
 
     return user.toResponseObject(token);

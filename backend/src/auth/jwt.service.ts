@@ -6,7 +6,10 @@ import { UserRole } from '../user/enum/user-role.enum';
 export interface JwtPayload {
   id: string;
   email: string;
+  firstName: string;
+  lastName: string;
   role: UserRole;
+  companyName?: string;
   iat?: number;
   exp?: number;
 }
@@ -30,6 +33,9 @@ export class JwtService {
     id: string;
     email: string;
     role: UserRole;
+    firstName: string;
+    lastName: string;
+    companyName?: string;
   }): string {
     const secret = process.env.JWT_SECRET;
 
