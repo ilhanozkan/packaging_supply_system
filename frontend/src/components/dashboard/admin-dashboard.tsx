@@ -46,7 +46,7 @@ export function AdminDashboard() {
   }, []);
 
   const pendingOrders = orderRequests.filter(
-    (order) => order.status === RequestStatus.PENDING
+    (order) => order.status === RequestStatus.ACTIVE
   );
   const completedOrders = orderRequests.filter(
     (order) => order.status === RequestStatus.COMPLETED

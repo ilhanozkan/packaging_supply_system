@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Package, User, Calendar } from "lucide-react";
 import clsx from "clsx";
@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { ProtectedRoute } from "@/components/auth/protected-route";
 import { MainLayout } from "@/components/layout/main-layout";
 import { OfferList } from "@/components/order-requests/offer-list";
+import { OrderItemsModal } from "@/components/order-requests/order-items-modal";
 import { UserRole } from "@/lib/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
@@ -30,6 +31,8 @@ export default function OrderRequestOffersPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const orderId = params.id as string;
+
+  const [isOrderItemsModalOpen, setIsOrderItemsModalOpen] = useState(false);
 
   const { currentItem: orderRequest, isLoading: orderLoading } = useAppSelector(
     (state) => state.orderRequests
@@ -196,7 +199,12 @@ export default function OrderRequestOffersPage() {
                 </div>
                 <div className="flex items-center text-sm text-gray-300">
                   <Package className="w-4 h-4 mr-2 shrink-0" />
-                  <span>{orderRequest.orderItems.length} ürün kategorisi</span>
+                  <button
+                    onClick={() => setIsOrderItemsModalOpen(true)}
+                    className="hover:text-white transition-colors cursor-pointer underline-offset-2 hover:underline"
+                  >
+                    {orderRequest.orderItems.length} ürün kategorisi
+                  </button>
                 </div>
               </div>
             </CardContent>
@@ -217,6 +225,12 @@ export default function OrderRequestOffersPage() {
             />
           </div>
         </div>
+
+        <OrderItemsModal
+          isOpen={!!isOrderItemsModalOpen}
+          onClose={() => setIsOrderItemsModalOpen(false)}
+          orderRequest={orderRequest}
+        />
       </MainLayout>
     </ProtectedRoute>
   );

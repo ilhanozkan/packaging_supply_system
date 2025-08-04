@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
+import { OrderItemsModal } from "@/components/order-requests/order-items-modal";
 import {
   OrderRequest,
   RequestStatus,
@@ -33,6 +34,8 @@ export function OrderRequestsList({
   const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedOrderForModal, setSelectedOrderForModal] =
+    useState<OrderRequest | null>(null);
 
   if (isLoading)
     return (
@@ -163,7 +166,12 @@ export function OrderRequestsList({
 
                 <div className="flex items-center text-sm text-gray-300">
                   <Package className="w-4 h-4 mr-2 shrink-0" />
-                  <span>{order.orderItems.length} ürün kategorisi</span>
+                  <button
+                    onClick={() => setSelectedOrderForModal(order)}
+                    className="hover:text-white transition-colors cursor-pointer underline-offset-2 hover:underline"
+                  >
+                    {order.orderItems.length} ürün kategorisi
+                  </button>
                 </div>
               </div>
 
@@ -202,6 +210,12 @@ export function OrderRequestsList({
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
+      />
+
+      <OrderItemsModal
+        isOpen={!!selectedOrderForModal}
+        onClose={() => setSelectedOrderForModal(null)}
+        orderRequest={selectedOrderForModal}
       />
     </div>
   );
