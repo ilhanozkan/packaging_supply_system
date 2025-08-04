@@ -24,7 +24,11 @@ export function ProtectedRoute({
 
   useEffect(() => {
     if (!isLoading) {
-      if (requireAuth && !isAuthenticated && !user && isProfileFetched)
+      if (
+        (requireAuth && !isAuthenticated && !user && isProfileFetched) ||
+        (typeof window !== "undefined" &&
+          localStorage.getItem("token") === null)
+      )
         return router.push("/login");
 
       if (isAuthenticated && user && allowedRoles.length > 0)
