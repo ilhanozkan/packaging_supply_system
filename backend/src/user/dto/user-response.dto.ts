@@ -9,5 +9,9 @@ export class UserResponseDto {
 
   lastName: string;
 
+  companyName?: string;
+
   role: UserRole;
+
+  token?: string;
 }

@@ -10,6 +10,7 @@ import { SupplierInterestModule } from './supplier-interest/supplier-interest.mo
 import { AuthModule } from './auth/auth.module';
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { LoggingInterceptor } from './shared/logging.interceptor';
+import { OrderItemModule } from './order-item/order-item.module';
 
 import ormConfig from '../ormconfig.json';
 
@@ -21,6 +22,7 @@ import ormConfig from '../ormconfig.json';
     OrderRequestModule,
     SupplierInterestModule,
     AuthModule,
+    OrderItemModule,
   ],
   controllers: [AppController],
   providers: [

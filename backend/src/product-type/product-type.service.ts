@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ProductType } from './entity/product-type.entity';
 import { ProductTypeResponseDto } from './dto/product-type-response.dto';
 import { ProductTypeDto } from './dto/product-type.dto';
+import { CreateProductTypeDto } from './dto/create-product-type.dto';
+import { UpdateProductTypeDto } from './dto/update-product-type.dto';
 
 import { UserRole } from '../user/enum/user-role.enum';
 import { Roles } from '../auth/decorator/roles.decorator';
@@ -17,20 +19,37 @@ export class ProductTypeService {
   ) {}
 
   @Roles(UserRole.ADMIN)
-  async listAllProductTypes(): Promise<ProductTypeDto[]> {
+  async listAllProductTypes(searchName?: string): Promise<ProductTypeDto[]> {
+    if (searchName) {
+      return await this.productTypeRepository
+        .createQueryBuilder('productType')
+        .where('LOWER(productType.name) LIKE LOWER(:name)', {
+          name: `%${searchName}%`,
+        })
+        .getMany();
+    }
     return await this.productTypeRepository.find();
   }
 
-  async listActiveProductTypes(): Promise<ProductTypeResponseDto[]> {
-    const productTypes = await this.productTypeRepository.findBy({
-      isActive: true,
-    });
+  async listActiveProductTypes(
+    searchName?: string,
+  ): Promise<ProductTypeResponseDto[]> {
+    let query = this.productTypeRepository
+      .createQueryBuilder('productType')
+      .where('productType.isActive = :isActive', { isActive: true });
 
+    if (searchName) {
+      query = query.andWhere('LOWER(productType.name) LIKE LOWER(:name)', {
+        name: `%${searchName}%`,
+      });
+    }
+
+    const productTypes = await query.getMany();
     return productTypes.map(productType => productType.toResponseObject());
   }
 
   async createProductType(
-    data: ProductTypeDto,
+    data: CreateProductTypeDto,
   ): Promise<ProductTypeResponseDto> {
     const productType = this.productTypeRepository.create(data);
     await this.productTypeRepository.save(productType);
@@ -38,20 +57,42 @@ export class ProductTypeService {
   }
 
   async getProductType(id: string): Promise<ProductTypeResponseDto> {
-    return this.productTypeRepository.findOneOrFail({
+    const productType = await this.productTypeRepository.findOne({
       where: { id },
     });
+
+    if (!productType) {
+      throw new NotFoundException(`Product type with ID ${id} not found`);
+    }
+
+    return productType.toResponseObject();
   }
 
   async updateProductType(
     id: string,
-    data: ProductTypeDto,
+    data: UpdateProductTypeDto,
   ): Promise<ProductTypeResponseDto> {
+    const productType = await this.productTypeRepository.findOne({
+      where: { id },
+    });
+
+    if (!productType) {
+      throw new NotFoundException(`Product type with ID ${id} not found`);
+    }
+
     await this.productTypeRepository.update(id, data);
     return this.getProductType(id);
   }
 
   async deleteProductType(id: string): Promise<void> {
-    await this.productTypeRepository.delete(id);
+    const productType = await this.productTypeRepository.findOne({
+      where: { id },
+    });
+
+    if (!productType) {
+      throw new NotFoundException(`Product type with ID ${id} not found`);
+    }
+
+    await this.productTypeRepository.remove(productType);
   }
 }

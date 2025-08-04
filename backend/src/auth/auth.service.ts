@@ -1,9 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UserRole } from 'src/user/enum/user-role.enum';
 
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { JwtService } from './jwt.service';
 
 import { User } from '../user/user.entity';
 
@@ -12,6 +14,7 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async login(data: LoginDto) {
@@ -29,11 +32,17 @@ export class AuthService {
         HttpStatus.BAD_REQUEST,
       );
 
-    return user.toResponseObject();
+    const token = this.jwtService.generateToken({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    });
+
+    return user.toResponseObject(token);
   }
 
   async register(data: RegisterDto) {
-    const { email } = data;
+    const { email, isSupplier } = data;
 
     let user = await this.userRepository.findOne({
       where: {
@@ -45,8 +54,15 @@ export class AuthService {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
 
     user = this.userRepository.create(data);
+    user.role = isSupplier ? UserRole.SUPPLIER : UserRole.CUSTOMER;
     await this.userRepository.save(user);
 
-    return user.toResponseObject();
+    const token = this.jwtService.generateToken({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    });
+
+    return user.toResponseObject(token);
   }
 }

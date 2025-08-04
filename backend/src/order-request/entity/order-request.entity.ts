@@ -1,24 +1,58 @@
-// import { User } from '../../user/user.entity';
-// import {
-//   CreateDateColumn,
-//   Entity,
-//   OneToMany,
-//   OneToOne,
-//   PrimaryGeneratedColumn,
-// } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-// @Entity()
-// export class OrderRequest {
-//   @PrimaryGeneratedColumn('uuid')
-//   id: string;
+import { User } from '../../user/user.entity';
+import { RequestStatus } from '../enum/request-status.enum';
+import { OrderItem } from '../../order-item/entity/order-item.entity';
 
-//   @CreateDateColumn()
-//   createdAt: Date;
+@Entity()
+export class OrderRequest {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-//   // @OneToOne()
-//   // supplier: User;
+  @Column({
+    type: 'enum',
+    enum: RequestStatus,
+    default: RequestStatus.ACTIVE,
+  })
+  status: RequestStatus;
 
-//   // @OneToOne()
-//   // customer: User;
-// }
-export class OrderRequest {}
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @Column('text')
+  title: string;
+
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  description: string;
+
+  @ManyToOne(() => User, { eager: true })
+  @JoinColumn({ name: 'customerId' })
+  customer: User;
+
+  @OneToMany(() => OrderItem, orderItem => orderItem.orderRequest, {
+    cascade: true,
+    eager: true,
+  })
+  orderItems: OrderItem[];
+
+  @Column({
+    type: 'date',
+    nullable: false,
+  })
+  expirationDate: Date;
+}

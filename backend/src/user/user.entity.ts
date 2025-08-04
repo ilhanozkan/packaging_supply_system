@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 
 import { UserRole } from './enum/user-role.enum';
 import { UserResponseDto } from './dto/user-response.dto';
@@ -35,22 +34,31 @@ export class User {
   lastName: string;
 
   @Column({
+    type: 'text',
+    nullable: true,
+  })
+  companyName: string;
+
+  @Column({
     type: 'enum',
     enum: UserRole,
     default: UserRole.CUSTOMER,
   })
   role: UserRole;
 
-  toResponseObject(): UserResponseDto {
-    const { id, email, firstName, lastName, role } = this;
+  toResponseObject(token?: string): UserResponseDto {
+    const { id, email, firstName, lastName, companyName, role } = this;
 
     const responseObject: UserResponseDto = {
       id,
       email,
       firstName,
       lastName,
+      companyName,
       role,
     };
+
+    if (token) responseObject.token = token;
 
     return responseObject;
   }
@@ -64,11 +72,5 @@ export class User {
     const { password } = this;
 
     return bcrypt.compare(attempt, password);
-  }
-
-  private get token() {
-    const { id, email } = this;
-
-    return jwt.sign({ id, email }, 'SECRET');
   }
 }

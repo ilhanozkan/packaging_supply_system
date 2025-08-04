@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 import { EmailValidation } from '../decorator/email-validation.decorator';
 import { Match } from '../decorator/match.decorator';
@@ -13,6 +13,10 @@ export class RegisterDto {
   @IsString()
   lastName: string;
 
+  @IsOptional()
+  @IsString()
+  companyName?: string;
+
   @EmailValidation()
   email: string;
 
@@ -23,4 +27,7 @@ export class RegisterDto {
     message: 'Password cofirmation does not match password',
   })
   passwordConfirmation: string;
+
+  @IsOptional()
+  isSupplier?: boolean;
 }

@@ -78,12 +78,14 @@ export class ProductType {
   isActive: boolean;
 
   toResponseObject(): ProductTypeResponseDto {
-    const { id, name, description } = this;
+    const { id, name, description, createdAt, isActive } = this;
 
     const responseObject: ProductTypeResponseDto = {
       id,
       name,
       description,
+      createdAt,
+      isActive,
     };
 
     return responseObject;

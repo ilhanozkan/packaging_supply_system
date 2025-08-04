@@ -1,12 +1,6 @@
 import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class ProductTypeDto {
-  @IsOptional()
-  id?: string;
-
-  @IsOptional()
-  createdAt?: Date;
-
+export class CreateProductTypeDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -18,4 +12,8 @@ export class ProductTypeDto {
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;
+
+  @IsOptional()
+  @IsString()
+  imageUrl?: string;
 }
