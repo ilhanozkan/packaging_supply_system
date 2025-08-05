@@ -56,7 +56,6 @@ export function EditOfferDialog({
     },
   });
 
-  // Update form when interest changes
   useEffect(() => {
     if (interest && isOpen) {
       form.reset({

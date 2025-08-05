@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { OrderRequest } from "@/lib/features/orderRequests/orderRequestSlice";
 import { SupplierInterest } from "@/lib/features/supplierInterests/supplierInterestSlice";
+import { SupplierInterestStatsGrid } from "./supplier-interest-stats-grid";
 
 interface AdminSupplierInterestsModalProps {
   isOpen: boolean;
@@ -120,26 +121,11 @@ export function AdminSupplierInterestsModal({
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          <div className="bg-blue-50 rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-blue-600">
-              {supplierInterests.length}
-            </div>
-            <div className="text-sm text-blue-600">Toplam Yanıt</div>
-          </div>
-          <div className="bg-green-50 rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-green-600">
-              {interestedSuppliers.length}
-            </div>
-            <div className="text-sm text-green-600">İlgilenen</div>
-          </div>
-          <div className="bg-red-50 rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-red-600">
-              {notInterestedSuppliers.length}
-            </div>
-            <div className="text-sm text-red-600">İlgilenmeyen</div>
-          </div>
-        </div>
+        <SupplierInterestStatsGrid
+          totalResponses={supplierInterests.length}
+          interestedCount={interestedSuppliers.length}
+          notInterestedCount={notInterestedSuppliers.length}
+        />
 
         <div className="space-y-6">
           {interestedSuppliers.length > 0 && (
