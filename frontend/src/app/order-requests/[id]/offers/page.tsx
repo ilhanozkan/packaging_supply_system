@@ -139,7 +139,7 @@ export default function OrderRequestOffersPage() {
   const interestedOffers = offers.filter((offer) => offer.isInterested);
 
   return (
-    <ProtectedRoute allowedRoles={[UserRole.CUSTOMER]}>
+    <ProtectedRoute allowedRoles={[UserRole.CUSTOMER, UserRole.ADMIN]}>
       <MainLayout>
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-6">
