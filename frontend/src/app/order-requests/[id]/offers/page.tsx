@@ -40,6 +40,7 @@ export default function OrderRequestOffersPage() {
   const { items: offers, isLoading: offersLoading } = useAppSelector(
     (state) => state.supplierInterests
   );
+  const { user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     if (orderId) {
@@ -97,7 +98,7 @@ export default function OrderRequestOffersPage() {
 
   if (orderLoading)
     return (
-      <ProtectedRoute allowedRoles={[UserRole.CUSTOMER]}>
+      <ProtectedRoute allowedRoles={[UserRole.CUSTOMER, UserRole.ADMIN]}>
         <MainLayout>
           <div className="max-w-7xl mx-auto px-4">
             <div className="animate-pulse">
@@ -116,7 +117,7 @@ export default function OrderRequestOffersPage() {
 
   if (!orderRequest)
     return (
-      <ProtectedRoute allowedRoles={[UserRole.CUSTOMER]}>
+      <ProtectedRoute allowedRoles={[UserRole.CUSTOMER, UserRole.ADMIN]}>
         <MainLayout>
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center py-12">
@@ -147,7 +148,13 @@ export default function OrderRequestOffersPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => router.push("/order-requests")}
+                disabled={!user?.role}
+                onClick={() => {
+                  if (user?.role === UserRole.ADMIN)
+                    return router.push("/admin/order-requests");
+
+                  router.push("/order-requests");
+                }}
                 className="flex items-center"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />

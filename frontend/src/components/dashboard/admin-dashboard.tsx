@@ -213,7 +213,7 @@ export function AdminDashboard() {
                     key={order.id}
                     className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 cursor-pointer"
                     onClick={() =>
-                      router.push(`/admin/order-requests/${order.id}/offers`)
+                      router.push(`/order-requests/${order.id}/offers`)
                     }
                   >
                     <div className="flex items-center space-x-4">

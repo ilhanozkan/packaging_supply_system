@@ -214,53 +214,55 @@ export function OrderRequestsList({
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-600">
-                {role === UserRole.CUSTOMER ? (
-                  <>
-                    <Button
-                      size="sm"
-                      className="text-xs border-slate-500 mb-2 bg-button-primary hover:bg-button-primary-hover font-semibold"
-                      onClick={() =>
-                        router.push(`/order-requests/${order.id}/offers`)
-                      }
-                    >
-                      Gelen Teklifleri Gör
-                    </Button>
+              {role === UserRole.ADMIN ? null : (
+                <div className="pt-4 border-t border-slate-600">
+                  {role === UserRole.CUSTOMER ? (
+                    <>
+                      <Button
+                        size="sm"
+                        className="text-xs border-slate-500 mb-2 bg-button-primary hover:bg-button-primary-hover font-semibold"
+                        onClick={() =>
+                          router.push(`/order-requests/${order.id}/offers`)
+                        }
+                      >
+                        Gelen Teklifleri Gör
+                      </Button>
 
+                      <div className="flex items-center gap-2">
+                        <Button
+                          size="sm"
+                          className="text-xs border-slate-500 bg-button-primary hover:bg-button-primary-hover font-semibold"
+                        >
+                          Düzenle
+                        </Button>
+                        <Button
+                          size="sm"
+                          className="text-xs bg-red-600 hover:bg-red-700 text-white font-semibold"
+                        >
+                          Sil
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
                     <div className="flex items-center gap-2">
                       <Button
                         size="sm"
                         className="text-xs border-slate-500 bg-button-primary hover:bg-button-primary-hover font-semibold"
+                        onClick={() => handleOfferClick(order)}
                       >
-                        Düzenle
+                        Teklif Ver
                       </Button>
                       <Button
                         size="sm"
                         className="text-xs bg-red-600 hover:bg-red-700 text-white font-semibold"
+                        onClick={() => handleNotInterestedClick(order)}
                       >
-                        Sil
+                        İlgilenmiyorum
                       </Button>
                     </div>
-                  </>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="sm"
-                      className="text-xs border-slate-500 bg-button-primary hover:bg-button-primary-hover font-semibold"
-                      onClick={() => handleOfferClick(order)}
-                    >
-                      Teklif Ver
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="text-xs bg-red-600 hover:bg-red-700 text-white font-semibold"
-                      onClick={() => handleNotInterestedClick(order)}
-                    >
-                      İlgilenmiyorum
-                    </Button>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
