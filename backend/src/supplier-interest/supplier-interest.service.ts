@@ -155,6 +155,18 @@ export class SupplierInterestService {
             title: interest.orderRequest.title,
             description: interest.orderRequest.description,
             status: interest.orderRequest.status,
+            orderItems: interest.orderRequest.orderItems?.map(item => ({
+              id: item.id,
+              requestedQuantity: item.requestedQuantity,
+              productType: item.productType
+                ? {
+                    id: item.productType.id,
+                    name: item.productType.name,
+                    description: item.productType.description,
+                    imageUrl: item.productType.imageUrl,
+                  }
+                : undefined,
+            })),
           }
         : undefined,
     };

@@ -38,7 +38,7 @@ export function OrderItemsModal({
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
-          {orderRequest?.orderItems.map((item, index) => (
+          {orderRequest?.orderItems?.map((item, index) => (
             <Card
               key={item.id || index}
               className="bg-primary-background shadow-md"

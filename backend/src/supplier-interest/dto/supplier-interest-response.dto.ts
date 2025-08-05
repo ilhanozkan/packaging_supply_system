@@ -16,5 +16,15 @@ export class SupplierInterestResponseDto {
     title: string;
     description?: string;
     status: string;
+    orderItems?: {
+      id: string;
+      requestedQuantity: number;
+      productType?: {
+        id: string;
+        name: string;
+        description?: string;
+        imageUrl?: string;
+      };
+    }[];
   };
 }
