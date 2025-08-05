@@ -103,7 +103,8 @@ export function EditOfferDialog({
         <DialogHeader>
           <DialogTitle>Teklifi Düzenle</DialogTitle>
           <DialogDescription>
-            &quot;{interest.orderRequest?.title}&quot; sipariş talebi için teklifinizi güncelleyin.
+            &quot;{interest.orderRequest?.title}&quot; sipariş talebi için
+            teklifinizi güncelleyin.
           </DialogDescription>
         </DialogHeader>
 

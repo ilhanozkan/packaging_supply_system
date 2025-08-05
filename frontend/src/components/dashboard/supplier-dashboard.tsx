@@ -35,11 +35,8 @@ export function SupplierDashboard() {
     dispatch(fetchMySupplierInterests());
   }, []);
 
-  const pendingOrders = orderRequests.filter(
-    (order) => order.status === RequestStatus.PENDING
-  );
-  const interestedOrders = myInterests.filter(
-    (interest) => interest.isInterested
+  const activeOrders = orderRequests.filter(
+    (order) => order.status === RequestStatus.ACTIVE
   );
 
   return (
@@ -73,13 +70,13 @@ export function SupplierDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Bekleyen Siparişler
+              Aktif Siparişler
             </CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{pendingOrders.length}</div>
-            <p className="text-xs text-muted-foreground">Yanıt bekleyenler</p>
+            <div className="text-2xl font-bold">{activeOrders.length}</div>
+            <p className="text-xs text-muted-foreground">Aktif siparişler</p>
           </CardContent>
         </Card>
         <Card>
@@ -96,20 +93,6 @@ export function SupplierDashboard() {
             </p>
           </CardContent>
         </Card>
-        {/* <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              İlgilendiğim Siparişler
-            </CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{interestedOrders.length}</div>
-            <p className="text-xs text-muted-foreground">
-              İlgilendiğiniz siparişler
-            </p>
-          </CardContent>
-        </Card> */}
       </div>
 
       <Card>
@@ -145,13 +128,13 @@ export function SupplierDashboard() {
                   <div
                     key={order.id}
                     className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 cursor-pointer"
-                    onClick={() => router.push(`/order-requests/${order.id}`)}
+                    onClick={() => router.push(`/order-requests`)}
                   >
                     <div className="flex items-center space-x-4">
                       <div>
                         <p className="font-medium">{order.title}</p>
                         <p className="text-sm text-gray-500">
-                          {order.orderItems.length} item(s) •{" "}
+                          {order.orderItems.length} ürün türü •{" "}
                           {order.customer?.companyName ||
                             `${order.customer?.firstName} ${order.customer?.lastName}`}
                         </p>
@@ -221,9 +204,7 @@ export function SupplierDashboard() {
                 <div
                   key={interest.id}
                   className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 cursor-pointer"
-                  onClick={() =>
-                    router.push(`/order-requests/${interest.orderRequestId}`)
-                  }
+                  onClick={() => router.push(`/order-requests`)}
                 >
                   <div className="flex items-center space-x-4">
                     <div>
