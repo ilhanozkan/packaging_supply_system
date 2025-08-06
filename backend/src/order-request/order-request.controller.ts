@@ -21,6 +21,7 @@ import { Roles } from '../auth/decorator/roles.decorator';
 import { UserRole } from '../user/enum/user-role.enum';
 import { RolesGuard } from '../auth/guard/role/role.guard';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+import type { RequestWithUser } from '../shared/type/user';
 
 @Controller('order-requests')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -30,7 +31,7 @@ export class OrderRequestController {
   @Post()
   @Roles(UserRole.CUSTOMER)
   async create(
-    @Req() req: any,
+    @Req() req: RequestWithUser,
     @Body() createOrderRequestDto: CreateOrderRequestDto,
   ): Promise<OrderRequestResponseDto> {
     const customerId = req.user.id;
@@ -54,7 +55,9 @@ export class OrderRequestController {
 
   @Get('my-orders')
   @Roles(UserRole.CUSTOMER)
-  async findMyOrders(@Req() req: any): Promise<OrderRequestResponseDto[]> {
+  async findMyOrders(
+    @Req() req: RequestWithUser,
+  ): Promise<OrderRequestResponseDto[]> {
     const customerId = req.user.id;
     return this.orderRequestService.findByCustomer(customerId);
   }

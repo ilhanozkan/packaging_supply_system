@@ -19,6 +19,7 @@ import { Roles } from '../auth/decorator/roles.decorator';
 import { UserRole } from '../user/enum/user-role.enum';
 import { RolesGuard } from '../auth/guard/role/role.guard';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+import type { RequestWithUser } from '../shared/type/user';
 
 @Controller('supplier-interests')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -30,7 +31,7 @@ export class SupplierInterestController {
   @Post()
   @Roles(UserRole.SUPPLIER)
   async create(
-    @Req() req: any,
+    @Req() req: RequestWithUser,
     @Body() createSupplierInterestDto: CreateSupplierInterestDto,
   ): Promise<SupplierInterestResponseDto> {
     const supplierId = req.user.id;
@@ -49,7 +50,7 @@ export class SupplierInterestController {
   @Get('my-interests')
   @Roles(UserRole.SUPPLIER)
   async findMyInterests(
-    @Req() req: any,
+    @Req() req: RequestWithUser,
   ): Promise<SupplierInterestResponseDto[]> {
     const supplierId = req.user.id;
     return this.supplierInterestService.findBySupplier(supplierId);

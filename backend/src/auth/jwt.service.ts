@@ -1,18 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import jwt from 'jsonwebtoken';
 
-import { UserRole } from '../user/enum/user-role.enum';
+import { JwtPayload } from './type/authenticated-request.interface';
 
-export interface JwtPayload {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: UserRole;
-  companyName?: string;
-  iat?: number;
-  exp?: number;
-}
+import { UserRole } from '../user/enum/user-role.enum';
 
 @Injectable()
 export class JwtService {
@@ -24,7 +15,7 @@ export class JwtService {
 
       const payload = jwt.verify(token, secret) as JwtPayload;
       return payload;
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('Geçersiz JWT token');
     }
   }

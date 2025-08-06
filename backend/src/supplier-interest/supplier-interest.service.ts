@@ -62,7 +62,7 @@ export class SupplierInterestService {
       relations: ['supplier', 'orderRequest'],
     });
 
-    return interests.map(this.toResponseDto);
+    return interests.map(interest => this.toResponseDto(interest));
   }
 
   async findBySupplier(
@@ -73,7 +73,7 @@ export class SupplierInterestService {
       relations: ['supplier', 'orderRequest'],
     });
 
-    return interests.map(this.toResponseDto);
+    return interests.map(interest => this.toResponseDto(interest));
   }
 
   async findByOrderRequest(
@@ -84,7 +84,7 @@ export class SupplierInterestService {
       relations: ['supplier', 'orderRequest'],
     });
 
-    return interests.map(this.toResponseDto);
+    return interests.map(interest => this.toResponseDto(interest));
   }
 
   async findOne(id: string): Promise<SupplierInterestResponseDto> {

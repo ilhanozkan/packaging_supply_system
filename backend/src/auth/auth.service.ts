@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserRole } from 'src/user/enum/user-role.enum';
 
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtService } from './jwt.service';
 
+import { UserRole } from '../user/enum/user-role.enum';
 import { User } from '../user/user.entity';
 
 @Injectable()

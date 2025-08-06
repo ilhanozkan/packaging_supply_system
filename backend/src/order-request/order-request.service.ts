@@ -86,7 +86,7 @@ export class OrderRequestService {
 
     const orderRequests = await query.getMany();
 
-    return orderRequests.map(this.toResponseDto);
+    return orderRequests.map(orderRequest => this.toResponseDto(orderRequest));
   }
 
   async findByCustomer(customerId: string): Promise<OrderRequestResponseDto[]> {
@@ -95,7 +95,7 @@ export class OrderRequestService {
       relations: ['customer', 'orderItems', 'orderItems.productType'],
     });
 
-    return orderRequests.map(this.toResponseDto);
+    return orderRequests.map(orderRequest => this.toResponseDto(orderRequest));
   }
 
   async findOne(id: string): Promise<OrderRequestResponseDto> {
@@ -133,7 +133,6 @@ export class OrderRequestService {
     await this.orderRequestRepository.save(orderRequest);
 
     if (updateOrderRequestDto.orderItems) {
-      // Delete existing order items
       await this.orderItemRepository.delete({ orderRequest });
 
       // Create new order items

@@ -40,19 +40,18 @@ export class HttpErrorFilter implements ExceptionFilter {
           : 'Sunucu hatası',
     };
 
-    if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
+    if (status === HttpStatus.INTERNAL_SERVER_ERROR)
       Logger.error(
         `${request.method} ${request.url}`,
         isHttpException ? exception.stack : String(exception),
         'ExceptionFilter',
       );
-    } else {
+    else
       Logger.error(
         `${request.method} ${request.url}`,
         JSON.stringify(errorResponse),
         'ExceptionFilter',
       );
-    }
 
     response.status(status).json(errorResponse);
   }
