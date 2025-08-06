@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { isAxiosError } from "axios";
+
 import { api } from "@/lib/api";
 
 export interface ProductType {
@@ -39,10 +41,13 @@ export const fetchProductTypes = createAsyncThunk(
         params,
       });
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Ürün tipleri verileri alınamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Ürün tipleri verileri alınamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -56,10 +61,13 @@ export const fetchAllProductTypes = createAsyncThunk(
         params,
       });
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Ürün tipleri verileri alınamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Ürün tipleri verileri alınamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -73,10 +81,13 @@ export const createProductType = createAsyncThunk(
         productTypeData
       );
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Ürün tipi oluşturulamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Ürün tipi oluşturulamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -90,10 +101,13 @@ export const updateProductType = createAsyncThunk(
     try {
       const response = await api.put<ProductType>(`/product-types/${id}`, data);
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Ürün tipi güncellenemedi"
-      );
+    } catch (error) {
+      const standardErrMsg = "Ürün tipi güncellenemedi";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -104,10 +118,13 @@ export const deleteProductType = createAsyncThunk(
     try {
       await api.delete(`/product-types/${id}`);
       return id;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Ürün tipi silinemedi"
-      );
+    } catch (error) {
+      const standardErrMsg = "Ürün tipi silinemedi";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );

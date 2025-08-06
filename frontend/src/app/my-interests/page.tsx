@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { redirect } from "next/navigation";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { fetchMySupplierInterests } from "@/lib/features/supplierInterests/supplierInterestSlice";

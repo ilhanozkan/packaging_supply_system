@@ -151,8 +151,8 @@ export function OrderRequestsList({
         </h3>
         {role === UserRole.CUSTOMER && (
           <p className="text-gray-500">
-            İlk sipariş talebinizi oluşturmak için yukarıdaki "Oluştur" butonuna
-            tıklayın.
+            İlk sipariş talebinizi oluşturmak için yukarıdaki
+            &quot;Oluştur&quot; butonuna tıklayın.
           </p>
         )}
       </div>

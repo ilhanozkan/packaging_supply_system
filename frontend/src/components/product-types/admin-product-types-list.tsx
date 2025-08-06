@@ -63,7 +63,7 @@ export function AdminProductTypesList() {
         await dispatch(deleteProductType(id)).unwrap();
         toast.success("Ürün tipi başarıyla silindi");
         dispatch(fetchAllProductTypes(searchTerm || undefined));
-      } catch (error) {
+      } catch {
         toast.error("Ürün tipi silinirken hata oluştu");
       }
     }
@@ -85,7 +85,7 @@ export function AdminProductTypesList() {
         `${name} ürün tipi ${!currentStatus ? "aktif" : "pasif"} hale getirildi`
       );
       dispatch(fetchAllProductTypes(searchTerm || undefined));
-    } catch (error) {
+    } catch {
       toast.error("Ürün tipi durumu güncellenirken hata oluştu");
     }
   };

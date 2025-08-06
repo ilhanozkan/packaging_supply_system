@@ -1,6 +1,8 @@
 import { Calendar, Package, User } from "lucide-react";
-import { InfoItem } from "./info-item";
+
 import { OrderRequest } from "@/lib/features/orderRequests/orderRequestSlice";
+
+import { InfoItem } from "./info-item";
 
 interface OrderInfoSectionProps {
   order: OrderRequest;

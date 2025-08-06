@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   updateProductType,
   fetchAllProductTypes,
+  ProductType,
 } from "@/lib/features/productTypes/productTypeSlice";
 
 interface EditProductTypeFormProps {
@@ -41,7 +42,7 @@ export function EditProductTypeForm({
     isActive: true,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [productType, setProductType] = useState<any>(null);
+  const [productType, setProductType] = useState<ProductType | null>(null);
 
   useEffect(() => {
     if (productTypes.length === 0) dispatch(fetchAllProductTypes(undefined));
@@ -89,8 +90,13 @@ export function EditProductTypeForm({
 
       toast.success("Ürün tipi başarıyla güncellendi");
       router.push("/admin/product-types");
-    } catch (error: any) {
-      toast.error(error || "Ürün tipi güncellenirken hata oluştu");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Ürün tipi güncellenirken hata oluştu";
+
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -125,7 +131,8 @@ export function EditProductTypeForm({
             Ürün Türünü Düzenle
           </h1>
           <p className="text-muted-foreground">
-            "{productType.name}" ürün türünün bilgilerini güncelleyin
+            &ldquo;{productType.name}&rdquo; ürün türünün bilgilerini
+            güncelleyin
           </p>
         </div>
       </div>
@@ -179,7 +186,7 @@ export function EditProductTypeForm({
                 onChange={(e) => handleInputChange("imageUrl", e.target.value)}
               />
               <p className="text-sm text-muted-foreground">
-                Ürün türünü temsil eden bir görsel URL'si ekleyebilirsiniz
+                Ürün türünü temsil eden bir görsel URL&apos;si ekleyebilirsiniz
               </p>
             </div>
 
@@ -227,7 +234,7 @@ export function EditProductTypeForm({
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                   e.currentTarget.parentElement!.innerHTML =
-                    '<p class="text-red-500 text-sm">Görsel yüklenemedi. URL\'yi kontrol edin.</p>';
+                    '<p class="text-red-500 text-sm">Görsel yüklenemedi. URL&apos;yi kontrol edin.</p>';
                 }}
               />
             </div>

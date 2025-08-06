@@ -80,8 +80,12 @@ export function EditOfferDialog({
 
       toast.success("Teklifiniz başarıyla güncellendi!");
       onClose();
-    } catch (error: any) {
-      toast.error(error || "Teklif güncellenirken bir hata oluştu");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Teklif güncellenirken bir hata oluştu";
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

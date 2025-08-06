@@ -52,8 +52,13 @@ export function CreateProductTypeForm() {
 
       toast.success("Ürün tipi başarıyla oluşturuldu");
       router.push("/admin/product-types");
-    } catch (error: any) {
-      toast.error(error || "Ürün tipi oluşturulurken hata oluştu");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Ürün tipi oluşturulurken hata oluştu";
+
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -136,7 +141,7 @@ export function CreateProductTypeForm() {
                 onChange={(e) => handleInputChange("imageUrl", e.target.value)}
               />
               <p className="text-sm text-muted-foreground">
-                Ürün türünü temsil eden bir görsel URL'si ekleyebilirsiniz
+                Ürün türünü temsil eden bir görsel URL&apos;si ekleyebilirsiniz
               </p>
             </div>
 

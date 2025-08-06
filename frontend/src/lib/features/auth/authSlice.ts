@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { isAxiosError } from "axios";
 
 import { api } from "@/lib/api";
 
@@ -68,10 +69,13 @@ export const login = createAsyncThunk(
       const response = await api.post<AuthResponse>("/auth/login", credentials);
       localStorage.setItem("token", response.data.token);
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Giriş başarısız"
-      );
+    } catch (error) {
+      const standardErrMsg = "Giriş başarısız";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -83,10 +87,12 @@ export const register = createAsyncThunk(
       const response = await api.post<AuthResponse>("/auth/register", userData);
       localStorage.setItem("token", response.data.token);
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Kayıt başarısız"
-      );
+    } catch (error) {
+      const standardErrMsg = "Kayıt başarısız";
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -97,10 +103,13 @@ export const getProfile = createAsyncThunk(
     try {
       const response = await api.get("/auth/me");
       return response.data.user;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Profil bilgileri alınamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Profil bilgileri alınamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );

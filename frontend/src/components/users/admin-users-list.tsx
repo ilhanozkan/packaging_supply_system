@@ -111,7 +111,7 @@ export function AdminUsersList() {
   }: {
     title: string;
     count: number;
-    icon: any;
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   }) => (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

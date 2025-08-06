@@ -56,7 +56,7 @@ export function LoginForm() {
         toast.success("Giriş başarılı!");
         router.push("/dashboard");
       } else toast.error((result.payload as string) || "Giriş başarısız");
-    } catch (error) {
+    } catch {
       toast.error("Giriş sırasında bir hata oluştu");
     }
   };

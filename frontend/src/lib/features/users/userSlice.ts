@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { isAxiosError } from "axios";
 
 import { api } from "@/lib/api";
 import { UserRole } from "@/lib/features/auth/authSlice";
@@ -31,10 +32,13 @@ export const fetchAllUsers = createAsyncThunk(
     try {
       const response = await api.get<User[]>("/admin/users");
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Kullanıcılar yüklenemedi"
-      );
+    } catch (error) {
+      const standardErrMsg = "Kullanıcılar yüklenemedi";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );

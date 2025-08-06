@@ -82,7 +82,7 @@ export function RegisterForm() {
         toast.success("Kayıt başarılı!");
         router.push("/dashboard");
       } else toast.error((result.payload as string) || "Kayıt başarısız");
-    } catch (error) {
+    } catch {
       toast.error("Beklenmedik bir hata oluştu");
     }
   };

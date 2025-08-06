@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { isAxiosError } from "axios";
 
 import { api } from "@/lib/api";
 
@@ -55,11 +56,13 @@ export const fetchAllSupplierInterests = createAsyncThunk(
     try {
       const response = await api.get<SupplierInterest[]>("/supplier-interests");
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message ||
-          "Tedarikçi ilgi alanları verileri alınamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Tedarikçi ilgi alanları verileri alınamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -72,11 +75,13 @@ export const fetchMySupplierInterests = createAsyncThunk(
         "/supplier-interests/my-interests"
       );
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message ||
-          "Tedarikçi ilgi alanları verileri alınamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Tedarikçi ilgi alanları verileri alınamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -89,11 +94,12 @@ export const fetchSupplierInterestsByOrderRequest = createAsyncThunk(
         `/supplier-interests/order-request/${orderRequestId}`
       );
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message ||
-          "Tedarikçi ilgi alanları verileri alınamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Tedarikçi ilgi alanları verileri alınamadı";
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -106,11 +112,13 @@ export const fetchSupplierInterestById = createAsyncThunk(
         `/supplier-interests/${id}`
       );
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message ||
-          "Tedarikçi ilgi alanı verileri alınamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Tedarikçi ilgi alanı verisi alınamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -124,10 +132,13 @@ export const createSupplierInterest = createAsyncThunk(
         interestData
       );
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Tedarikçi ilgi alanı oluşturulamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Tedarikçi ilgi alanı oluşturulamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -144,10 +155,13 @@ export const updateSupplierInterest = createAsyncThunk(
         data
       );
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Tedarikçi ilgi alanı güncellenemedi"
-      );
+    } catch (error) {
+      const standardErrMsg = "Tedarikçi ilgi alanı güncellenemedi";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -158,10 +172,13 @@ export const deleteSupplierInterest = createAsyncThunk(
     try {
       await api.delete(`/supplier-interests/${id}`);
       return id;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Tedarikçi ilgi alanı silinemedi"
-      );
+    } catch (error) {
+      const standardErrMsg = "Tedarikçi ilgi alanı silinemedi";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );

@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Package, ShoppingCart, Users, Heart, Plus } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -8,9 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
-import { Package, ShoppingCart, Users, Heart, Plus } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {

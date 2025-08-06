@@ -75,8 +75,11 @@ export function SupplierInterestDialog({
       );
       onClose();
       form.reset();
-    } catch (error: any) {
-      toast.error(error || "Bir hata oluştu");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Bir hata oluştu";
+
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -94,8 +97,11 @@ export function SupplierInterestDialog({
 
       toast.success("İlgilenmediğiniz başarıyla kaydedildi!");
       onClose();
-    } catch (error: any) {
-      toast.error(error || "Bir hata oluştu");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Bir hata oluştu";
+
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

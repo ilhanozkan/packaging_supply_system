@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { isAxiosError } from "axios";
+
 import { api } from "@/lib/api";
 
 export enum RequestStatus {
@@ -85,10 +87,13 @@ export const fetchOrderRequests = createAsyncThunk(
         params,
       });
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Sipariş talepleri verileri alınamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Sipariş talepleri verileri alınamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -101,11 +106,13 @@ export const fetchMyOrderRequests = createAsyncThunk(
         "/order-requests/my-orders"
       );
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message ||
-          "Kendi sipariş talepleri verileriniz alınamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Kendi sipariş talepleri verileriniz alınamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -116,10 +123,13 @@ export const fetchOrderRequestById = createAsyncThunk(
     try {
       const response = await api.get<OrderRequest>(`/order-requests/${id}`);
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Sipariş talebi verileri alınamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Sipariş talebi verileri alınamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -133,10 +143,13 @@ export const createOrderRequest = createAsyncThunk(
         orderRequestData
       );
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Sipariş talebi oluşturulamadı"
-      );
+    } catch (error) {
+      const standardErrMsg = "Sipariş talebi oluşturulamadı";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -153,10 +166,13 @@ export const updateOrderRequest = createAsyncThunk(
         data
       );
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Sipariş talebi güncellenemedi"
-      );
+    } catch (error) {
+      const standardErrMsg = "Sipariş talebi güncellenemedi";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -173,10 +189,13 @@ export const updateOrderRequestStatus = createAsyncThunk(
         { status }
       );
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Sipariş talebi durumu güncellenemedi"
-      );
+    } catch (error) {
+      const standardErrMsg = "Sipariş talebi durumu güncellenemedi";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );
@@ -187,10 +206,13 @@ export const deleteOrderRequest = createAsyncThunk(
     try {
       await api.delete(`/order-requests/${id}`);
       return id;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Sipariş talebi silinemedi"
-      );
+    } catch (error) {
+      const standardErrMsg = "Sipariş talebi silinemedi";
+
+      if (isAxiosError(error))
+        return rejectWithValue(error.response?.data?.message || standardErrMsg);
+
+      return rejectWithValue(standardErrMsg);
     }
   }
 );

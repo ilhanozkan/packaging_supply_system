@@ -143,7 +143,7 @@ export function CreateOrderRequestForm() {
       } else {
         toast.error((result.payload as string) || "Talep oluşturulamadı");
       }
-    } catch (error) {
+    } catch {
       toast.error("Talep oluşturulurken bir hata oluştu");
     }
   };

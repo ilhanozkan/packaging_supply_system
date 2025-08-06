@@ -22,6 +22,8 @@ import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { OrderItemsModal } from "@/components/order-requests/order-items-modal";
 import { SupplierInterest } from "@/lib/features/supplierInterests/supplierInterestSlice";
+import { OrderRequest } from "@/lib/features/orderRequests/orderRequestSlice";
+
 import { EditOfferDialog } from "./edit-offer-dialog";
 
 interface MyInterestsListProps {
@@ -38,7 +40,9 @@ export function MyInterestsList({
   const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedOrderForModal, setSelectedOrderForModal] = useState<any>(null);
+  const [selectedOrderForModal, setSelectedOrderForModal] = useState<
+    SupplierInterest["orderRequest"] | null
+  >(null);
   const [editOfferDialog, setEditOfferDialog] = useState<{
     isOpen: boolean;
     interest: SupplierInterest | null;
@@ -244,7 +248,7 @@ export function MyInterestsList({
       <OrderItemsModal
         isOpen={!!selectedOrderForModal}
         onClose={() => setSelectedOrderForModal(null)}
-        orderRequest={selectedOrderForModal}
+        orderRequest={(selectedOrderForModal as OrderRequest) || null}
       />
 
       <EditOfferDialog
