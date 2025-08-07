@@ -3,11 +3,11 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     ports:
       - '8080:8080'
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - PORT=8080
       - DB_TYPE=postgres
       - DB_HOST=db
@@ -15,16 +15,14 @@ services:
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
       - DB_DATABASE=packaging_supply_system
-      - DB_SYNCHRONIZE=true
-      - DB_LOGGING=true
-      - JWT_SECRET=SUPER_SECRET_KEY
+      - DB_SYNCHRONIZE=false
+      - DB_LOGGING=false
+      - JWT_SECRET=your-production-jwt-secret-here
       - JWT_EXPIRES_IN=1d
     depends_on:
       - db
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    container_name: app-dev
+    container_name: app-prod
+    restart: unless-stopped
 
   db:
     image: postgres:15
@@ -33,8 +31,11 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=packaging_supply_system
     volumes:
-      - db_data_dev:/var/lib/postgresql/data
-    container_name: db-dev
+      - db_data_prod:/var/lib/postgresql/data
+    container_name: db-prod
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
 
 volumes:
-  db_data_dev:
+  db_data_prod:

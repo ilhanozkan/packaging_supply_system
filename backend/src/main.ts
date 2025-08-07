@@ -1,14 +1,16 @@
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import { AppModule } from './app.module';
 import { ProductTypeService } from './product-type/product-type.service';
 
-const PORT = process.env.PORT ?? 3000;
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('port') || 8080;
 
   app.setGlobalPrefix('api/v1');
   app.enableCors();
@@ -17,8 +19,8 @@ async function bootstrap() {
   const productTypeService = app.get(ProductTypeService);
   await productTypeService.initializeProductTypes();
 
-  await app.listen(PORT);
+  await app.listen(port);
 
-  Logger.log(`Server is running on: http://localhost:${PORT}`, 'Bootstrap');
+  Logger.log(`Server is running on: http://localhost:${port}`, 'Bootstrap');
 }
 bootstrap().catch(console.error);
