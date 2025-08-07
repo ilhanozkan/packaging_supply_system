@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,12 +12,35 @@ import { AuthModule } from './auth/auth.module';
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { LoggingInterceptor } from './shared/logging.interceptor';
 import { OrderItemModule } from './order-item/order-item.module';
-
-import ormConfig from '../ormconfig.json';
+import configuration, { Configuration } from './config/configuration';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(ormConfig as TypeOrmModuleOptions),
+    ConfigModule.forRoot({
+      load: [configuration],
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService<Configuration>) => {
+        const dbConfig = configService.get('database', { infer: true });
+
+        if (!dbConfig) throw new Error('Database configuration is required');
+
+        return {
+          type: 'postgres' as const,
+          host: dbConfig.host,
+          port: dbConfig.port,
+          username: dbConfig.username,
+          password: dbConfig.password,
+          database: dbConfig.database,
+          synchronize: dbConfig.synchronize,
+          logging: dbConfig.logging,
+          entities: dbConfig.entities,
+        };
+      },
+      inject: [ConfigService],
+    }),
     ProductTypeModule,
     UserModule,
     OrderRequestModule,

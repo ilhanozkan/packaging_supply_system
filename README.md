@@ -2,6 +2,9 @@
 
 A comprehensive full-stack web application that connects customers with suppliers for packaging needs. Built with NestJS, Next.js, and PostgreSQL, it provides a robust platform for managing order requests and supplier interests.
 
+🎉 Packaging Supply System is live at the following address:
+[https://packaging-supply-system.vercel.app](https://packaging-supply-system.vercel.app)
+
 ## Overview Videos
 
 Admin:
@@ -33,6 +36,12 @@ https://github.com/user-attachments/assets/3b16852f-129e-457f-b8de-47135289840a
 - **UI Components**: Radix UI with custom styling
 - **Form Handling**: React Hook Form with Zod validation
 
+## Installation
+
+### Environment Variables
+
+Create `.env` files in both backend and frontend directories with appropriate configuration for your environment. `.env.example` files are provided as templates.
+
 ### Backend Setup
 
 #### Quick Start with Docker
@@ -59,11 +68,44 @@ https://github.com/user-attachments/assets/3b16852f-129e-457f-b8de-47135289840a
    - API endpoints: `http://localhost:8080/api/v1`
    - Database: PostgreSQL on port 5432 (in docker network)
 
-### Docker Services
+#### Environment Variables
 
-- **app**: NestJS backend application
-- **db**: PostgreSQL database
-- **volumes**: Persistent data storage
+When deploying to production platforms (Heroku, AWS, DigitalOcean, etc.), set the following environment variables:
+
+```bash
+NODE_ENV=production
+PORT=8080
+DB_TYPE=postgres
+DB_HOST=your-db-host
+DB_PORT=5432
+DB_USERNAME=your-db-username
+DB_PASSWORD=your-db-password
+DB_DATABASE=your-db-name
+DB_SYNCHRONIZE=false
+DB_LOGGING=false
+JWT_SECRET=your-super-secret-jwt-key-minimum-32-characters
+JWT_EXPIRES_IN=1d
+```
+
+#### Default Environment (Development)
+
+```bash
+# Start with default docker-compose.yml (development mode)
+$ docker-compose up --build
+
+# Stop the application
+$ docker-compose down
+```
+
+#### Production Environment
+
+```bash
+# Using production Docker Compose (optimized build)
+$ docker-compose -f docker-compose.prod.yml up --build -d
+
+# Stop production environment
+$ docker-compose -f docker-compose.prod.yml down
+```
 
 ### Frontend Setup
 
@@ -86,6 +128,14 @@ https://github.com/user-attachments/assets/3b16852f-129e-457f-b8de-47135289840a
    ```
 
 4. Open `http://localhost:3000` in your browser
+
+#### Environment Variables
+
+Create a `.env.local` file in the frontend directory with the following variables:
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:8080/api/v1
+```
 
 ## API Endpoints
 
@@ -125,15 +175,13 @@ https://github.com/user-attachments/assets/3b16852f-129e-457f-b8de-47135289840a
 
 ## Database Schema
 
+UML diagram available in the `backend/uml/diagram.puml` file.
+
 - **Users**: Customer, supplier, and admin accounts
 - **Order Requests**: Packaging requirements from customers
 - **Order Items**: Specific products within an order
 - **Supplier Interests**: Supplier responses and offers
 - **Product Types**: Available packaging categories
-
-### Environment Variables
-
-Create `.env` files in both backend and frontend directories with appropriate configuration for your environment.
 
 ## License
 
