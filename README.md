@@ -2,6 +2,9 @@
 
 A comprehensive full-stack web application that connects customers with suppliers for packaging needs. Built with NestJS, Next.js, and PostgreSQL, it provides a robust platform for managing order requests and supplier interests.
 
+🎉 Packaging Supply System is live at the following address:
+[https://packaging-supply-system.vercel.app](https://packaging-supply-system.vercel.app)
+
 ## Overview Videos
 
 Admin:
